@@ -158,9 +158,7 @@ window.LILA_CARTA = [
     contiene: "Gluten, Lácteos, Huevo" },
   { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Dulces de fin de semana",
     dias: "Sábado, Domingo", otros_dias: "No disponible", nota: "Disponibles los fines de semana.",
-    nombre: "Cuchareable de red velvet", precio: 15000,
-    descripcion: "Postre de cuchara de red velvet.",
-    contiene: "Gluten, Lácteos, Huevo" },
+    nombre: "Cuchareable de red velvet", precio: 15000 },
   { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Dulces de fin de semana",
     dias: "Sábado, Domingo", otros_dias: "No disponible", nota: "Disponibles los fines de semana.",
     nombre: "Cheesecake de frutos rojos", precio: 15000,
@@ -168,7 +166,7 @@ window.LILA_CARTA = [
     contiene: "Gluten, Lácteos" },
 
   { seccion: "Pastelería", categoria: "En honor a Lila", destacado: "SI",
-    nombre: "Torta de enyucado", precio: 7000,
+    nombre: "Torta de enyucado", precio: 10000,
     descripcion: "Receta de la casa: yuca rallada, coco, queso costeño, mantequilla, leche de coco, azúcar y anís, horneada hasta dorar.",
     contiene: "Lácteos" },
 
