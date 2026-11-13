@@ -62,18 +62,16 @@ button.ghost{background:none;color:var(--ink)}
 
 <div class="panel">
   <h1>Tarjetas QR para las mesas</h1>
-  <p>Genera e imprime las tarjetas. Cada QR lleva el número de mesa, así el pedido del cliente aparece como “Mesa 5”. Imprime en hoja carta, recorta por la línea punteada y ponlas en un portacarta de mesa (4×6″ o 10×15 cm).</p>
+  <p>Genera e imprime las tarjetas con el QR de la carta. Imprime en hoja carta (4 por hoja), recorta por la línea punteada y ponlas en un portacarta de mesa (4×6″ o 10×15 cm).</p>
   <div class="grid">
     <div style="grid-column:1/-1"><label for="url">Dirección de la carta (URL publicada)</label><input id="url" type="text" placeholder="https://tu-usuario.github.io/carta-lila/"></div>
-    <div><label for="desde">Desde la mesa</label><input id="desde" type="number" min="1" max="200" value="1"></div>
-    <div><label for="hasta">Hasta la mesa</label><input id="hasta" type="number" min="1" max="200" value="12"></div>
+    <div><label for="hasta">Cantidad de tarjetas</label><input id="hasta" type="number" min="1" max="200" value="12"><input id="desde" type="hidden" value="1"></div>
     <div><label>Opciones</label>
-      <label class="check"><input id="conMesa" type="checkbox" checked> Incluir número de mesa</label>
       <label class="check"><input id="conWifi" type="checkbox"> Mostrar Wi-Fi</label></div>
   </div>
   <div class="warn" id="warn"></div>
-  <div class="actions"><button id="print">Imprimir tarjetas</button><button class="ghost" id="test">Probar el QR de la primera mesa</button></div>
-  <p class="hint">Consejo: imprime una y escanéala con 2 o 3 celulares antes de imprimir todas. Sin número de mesa se genera un QR general (útil para la barra, la vitrina o redes).</p>
+  <div class="actions"><button id="print">Imprimir tarjetas</button><button class="ghost" id="test">Abrir la carta</button></div>
+  <p class="hint">Consejo: imprime una y escanéala con 2 o 3 celulares antes de imprimir todas.</p>
 </div>
 <div class="pages" id="pages"></div>
 
@@ -100,7 +98,7 @@ button.ghost{background:none;color:var(--ink)}
     warn.className = 'warn';
     if (!/\/$/.test(base) && !/\.html?$/.test(base)) base += '/';
     var a = Math.max(1, +$('desde').value || 1), b = Math.max(a, Math.min(a + 199, +$('hasta').value || a));
-    var conMesa = $('conMesa').checked, wifi = $('conWifi').checked && CFG.wifi && CFG.wifi.red;
+    var conMesa = false, wifi = $('conWifi').checked && CFG.wifi && CFG.wifi.red;
     var cards = [];
     for (var m = a; m <= b; m++){
       var url = conMesa ? base + (base.indexOf('?') >= 0 ? '&' : '?') + 'mesa=' + m : base;
@@ -119,9 +117,9 @@ button.ghost{background:none;color:var(--ink)}
     return true;
   }
   try { var s = JSON.parse(localStorage.getItem('lila.qr') || 'null'); if (s){ if (s.url) $('url').value = s.url; $('desde').value = s.a; $('hasta').value = s.b; } } catch(e){}
-  ['url','desde','hasta','conMesa','conWifi'].forEach(function(id){ $(id).addEventListener('input', build); $(id).addEventListener('change', build); });
+  ['url','hasta','conWifi'].forEach(function(id){ $(id).addEventListener('input', build); $(id).addEventListener('change', build); });
   $('print').addEventListener('click', function(){ if (build()) window.print(); });
-  $('test').addEventListener('click', function(){ if (!build()) return; var base = $('url').value.trim(); if (!/\/$/.test(base) && !/\.html?$/.test(base)) base += '/'; window.open(base + ($('conMesa').checked ? '?mesa=' + (+$('desde').value || 1) : ''), '_blank'); });
+  $('test').addEventListener('click', function(){ if (!build()) return; var base = $('url').value.trim(); if (!/\/$/.test(base) && !/\.html?$/.test(base)) base += '/'; window.open(base, '_blank'); });
   build();
 })();
 </script>

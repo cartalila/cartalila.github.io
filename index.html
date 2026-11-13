@@ -472,7 +472,6 @@ img{display:block;max-width:100%}
 <div class="app" id="app">
   <header>
     <div class="topbar">
-      <span class="mesa-chip" id="mesaChip" hidden>Mesa <b></b></span>
       <span class="sp"></span>
       <button class="icon-btn" data-act="info" aria-label="Información del local"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.1"/></svg></button>
       <button class="icon-btn" data-act="theme" id="themeBtn" aria-label="Modo noche"></button>
@@ -530,7 +529,6 @@ img{display:block;max-width:100%}
   <div class="sheet-foot" id="sheetFoot" hidden></div>
 </div>
 <div class="story" id="story" role="dialog" aria-modal="true" aria-label="Destacados"></div>
-<div class="waiter" id="waiter" role="dialog" aria-modal="true" aria-label="Pedido para el mesero"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="carta.js"></script>
@@ -1000,7 +998,6 @@ function renderStatic(){
   $('#lema').textContent = CFG.lema || '';
   $('#gracias').textContent = CFG.despedida || '';
   $('#avisos').textContent = [CFG.avisoPrecios, CFG.avisoAlergias].filter(Boolean).join(' ');
-  if (state.mesa){ var mc = $('#mesaChip'); mc.hidden = false; mc.querySelector('b').textContent = state.mesa; }
 }
 function renderAll(){ renderMenu(); renderFacadeOnce(); buildStories(); applyFilters(true); updateOrderUI(); renderFrescura(); onScroll(); }
 var facadeDone = false;
@@ -1065,7 +1062,6 @@ function popHist(fromPop){ if (histPushed && !fromPop){ histPushed = false; try 
 window.addEventListener('popstate', function(){
   histPushed = false;
   if (ST){ closeStory(true); return; }
-  if ($('#waiter').classList.contains('show')){ closeWaiter(true); return; }
   if (sheetKind) closeSheet(true);
 });
 
@@ -1172,22 +1168,22 @@ function openOrder(){
       '<div class="o-ctl"><div class="stepper"><button data-act="oqty" data-i="' + i + '" data-d="-1" aria-label="Quitar uno">' + (l.qty > 1 ? I.minus : I.trash) + '</button><output>' + l.qty + '</output><button data-act="oqty" data-i="' + i + '" data-d="1" aria-label="Agregar uno">' + I.plus + '</button></div><small style="margin:0;color:var(--muted)">' + (l.consultar ? '' : money(l.unit) + ' c/u') + '</small></div></li>';
   }).join('');
   var wa = CFG.whatsapp && CFG.enviarPedidoPorWhatsApp !== false;
-  var body = '<div class="o-head"><div><h3 class="sh-title" id="sheetTitle">Mi pedido</h3><p class="sh-sub">' + (state.mesa ? 'Mesa ' + esc(state.mesa) + ' · ' : '') + orderCount() + (orderCount() === 1 ? ' producto' : ' productos') + '</p></div><button class="link-btn" data-act="oclear" style="margin-right:44px">Vaciar</button></div>' +
+  var body = '<div class="o-head"><div><h3 class="sh-title" id="sheetTitle">Mi pedido</h3><p class="sh-sub">' + orderCount() + (orderCount() === 1 ? ' producto' : ' productos') + '</p></div><button class="link-btn" data-act="oclear" style="margin-right:44px">Vaciar</button></div>' +
     '<ul class="o-lines">' + lines + '</ul>' +
     '<div class="o-sum"><div class="r"><span>Subtotal</span><span>' + money(sub) + '</span></div>' +
     '<div class="r"><label class="switch"><input type="checkbox" data-act="otip"' + (o.propina ? ' checked' : '') + '><i></i><span>Propina voluntaria (' + Math.round((CFG.propinaSugerida || 0.1) * 100) + ' %)</span></label><span>' + (tip ? money(tip) : '—') + '</span></div>' +
     '<div class="r total"><span>Total</span><span>' + money(total) + '</span></div>' +
     '<div class="split"><span style="display:flex;align-items:center;gap:8px">' + I.users + 'Dividir entre</span><div class="stepper"><button data-act="opers" data-d="-1" aria-label="Menos personas"' + (o.personas <= 1 ? ' disabled' : '') + '>' + I.minus + '</button><output>' + o.personas + '</output><button data-act="opers" data-d="1" aria-label="Más personas">' + I.plus + '</button></div></div>' +
     (o.personas > 1 ? '<div class="r" style="padding-top:10px"><span>Cada persona</span><b style="font-weight:500">≈ ' + money(per) + '</b></div>' : '') + '</div>' +
-    '<p class="o-hint">Este pedido no se envía solo: muéstralo a tu mesero para confirmarlo. Los precios incluyen impuestos.</p>';
-  var foot = '<div class="o-actions"><button class="btn btn-primary" data-act="waiter">' + I.eye + 'Mostrar al mesero</button>' + (wa ? '<button class="btn btn-wa" data-act="wa">' + I.wa + 'Enviar por WhatsApp</button>' : '') + '</div>';
+    '<p class="o-hint">Es solo para que sepas cuánto vas a gastar. Pídele a tu mesero lo que quieras. Los precios incluyen impuestos.</p>';
+  var foot = wa ? '<div class="o-actions"><button class="btn btn-wa" data-act="wa">' + I.wa + 'Enviar por WhatsApp</button></div>' : '';
   var st = sheetKind === 'order' ? $('#sheetBody').scrollTop : 0;
   openSheet('order', body, foot);
   $('#sheetBody').scrollTop = st;
 }
 function orderText(){
   var o = state.order, sub = orderSubtotal(), tip = tipOf(sub);
-  var t = 'Hola, ' + (CFG.nombre || 'Lila') + '. Quiero pedir:\n' + (state.mesa ? 'Mesa ' + state.mesa + '\n' : '') + '\n';
+  var t = 'Hola, ' + (CFG.nombre || 'Lila') + '. Quiero pedir:\n\n';
   o.lines.forEach(function(l){
     t += '• ' + l.qty + '× ' + l.nombre + ' (' + l.categoria + ')' + (l.consultar ? '' : ' — ' + money(l.unit * l.qty)) + '\n';
     if (l.opts.length) t += '   ' + l.opts.map(function(x){ return x.g + ': ' + x.v; }).join(' · ') + '\n';
@@ -1196,30 +1192,6 @@ function orderText(){
   t += '\nSubtotal: ' + money(sub) + (tip ? '\nPropina voluntaria: ' + money(tip) : '') + '\nTotal: ' + money(sub + tip);
   if (o.personas > 1) t += '\nDividido entre ' + o.personas + ' personas';
   return t;
-}
-
-/* ---------- Vista para el mesero ---------- */
-var wakeLock = null;
-function openWaiter(){
-  var o = state.order, sub = orderSubtotal(), tip = tipOf(sub), w = $('#waiter');
-  w.innerHTML = '<div class="w-in"><div class="w-top"><button class="pill-btn" data-act="waiter-close">' + I.back + 'Volver</button>' + FLOR.replace('class="flor"', 'class="flor" style="width:34px;height:34px"') + '</div>' +
-    '<div class="w-mesa"><small>' + (state.mesa ? 'Mesa' : 'Pedido') + '</small><b>' + esc(state.mesa || (CFG.nombre || 'Lila')) + '</b></div>' +
-    '<ol class="w-list">' + o.lines.map(function(l){
-      var it = state.byId[l.id], a = it ? avail(it) : {ok: true};
-      var det = l.opts.map(function(x){ return x.g + ': ' + x.v; }).concat(l.nota ? ['Nota: ' + l.nota] : []).concat(a.kind === 'pedido' ? ['(bajo pedido)'] : []).join(' · ');
-      return '<li><span class="w-q">' + l.qty + '×</span><span class="w-n">' + esc(l.nombre) + '<small>' + esc(l.categoria + (det ? ' · ' + det : '')) + '</small></span><span class="w-p">' + (l.consultar ? '—' : money(l.unit * l.qty)) + '</span></li>';
-    }).join('') + '</ol>' +
-    (tip ? '<div class="w-total" style="font-size:20px;padding-top:12px"><small>Propina voluntaria</small><span>' + money(tip) + '</span></div>' : '') +
-    '<div class="w-total"><small>Total</small><span>' + money(sub + tip) + '</span></div><p class="w-hint">Muestra esta pantalla a tu mesero para confirmar el pedido.</p></div>';
-  if (sheetKind){ sheetKind = null; $('#sheet').classList.remove('show'); $('#scrim').classList.remove('show'); }
-  else pushHist();
-  w.classList.add('show'); w.scrollTop = 0; document.documentElement.style.overflow = 'hidden';
-  try { if (navigator.wakeLock) navigator.wakeLock.request('screen').then(function(l){ wakeLock = l; }).catch(function(){}); } catch(e){}
-}
-function closeWaiter(fromPop){
-  $('#waiter').classList.remove('show'); document.documentElement.style.overflow = '';
-  if (wakeLock){ try { wakeLock.release(); } catch(e){} wakeLock = null; }
-  popHist(fromPop);
 }
 
 /* ---------- Filtros ---------- */
@@ -1301,8 +1273,6 @@ document.addEventListener('click', function(e){
     case 'oqty': { var l = state.order.lines[+el.getAttribute('data-i')]; if (!l) return; l.qty += +el.getAttribute('data-d'); if (l.qty <= 0) state.order.lines.splice(+el.getAttribute('data-i'), 1); saveOrder(); updateOrderUI(); openOrder(); break; }
     case 'opers': state.order.personas = Math.max(1, Math.min(20, state.order.personas + (+el.getAttribute('data-d')))); saveOrder(); openOrder(); break;
     case 'oclear': if (confirmClear(el)){ state.order.lines = []; state.order.personas = 1; state.order.propina = false; saveOrder(); updateOrderUI(); openOrder(); } break;
-    case 'waiter': if (orderCount()) openWaiter(); break;
-    case 'waiter-close': closeWaiter(); break;
     case 'wa': { var num = String(CFG.whatsapp || '').replace(/\D/g, ''); if (num) window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); break; }
     case 'close': closeSheet(); break;
     case 'tab': spyLock = Date.now() + 900; setActiveTab(el.getAttribute('data-target')); goTo(document.getElementById(el.getAttribute('data-target'))); break;
@@ -1346,7 +1316,7 @@ function fallbackCopy(t){ var ta = document.createElement('textarea'); ta.value 
 document.addEventListener('keydown', function(e){
   if (ST){ if (e.key === 'ArrowRight') storyStep(1); else if (e.key === 'ArrowLeft') storyStep(-1); else if (e.key === 'Escape') closeStory(); return; }
   if (sheetKind === 'detail' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !/TEXTAREA|INPUT/.test(e.target.tagName)) detailGo(e.key === 'ArrowRight' ? 1 : -1);
-  if (e.key === 'Escape'){ if ($('#waiter').classList.contains('show')) closeWaiter(); else if (sheetKind) closeSheet(); else if ($('#nav').classList.contains('searching')) $('[data-act=search-close]').click(); }
+  if (e.key === 'Escape'){ if (sheetKind) closeSheet(); else if ($('#nav').classList.contains('searching')) $('[data-act=search-close]').click(); }
 });
 /* Mantener presionada una historia la pausa */
 (function(){
@@ -1370,12 +1340,6 @@ window.addEventListener('resize', onScroll);
   function move(e){ if (y0 == null) return; dy = e.touches[0].clientY - y0; if (dy > 0){ sh.style.transition = 'none'; sh.style.transform = 'translateY(' + dy + 'px)'; } }
   function end(){ if (y0 == null) return; sh.style.transition = ''; sh.style.transform = ''; if (dy > 110) closeSheet(); y0 = null; }
   sh.addEventListener('touchstart', start, {passive: true}); sh.addEventListener('touchmove', move, {passive: true}); sh.addEventListener('touchend', end);
-})();
-/* Mesa del QR (?mesa=5) */
-(function(){
-  var m = (params.get('mesa') || params.get('m') || '').trim().slice(0, 12).replace(/[^\w\s-]/g, '');
-  try { if (m) sessionStorage.setItem('lila.mesa', m); else m = sessionStorage.getItem('lila.mesa') || ''; } catch(e){}
-  state.mesa = m;
 })();
 
 /* =================== arranque =================== */
