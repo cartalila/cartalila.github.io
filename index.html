@@ -413,7 +413,6 @@ img{display:block;max-width:100%}
       <div class="tabs" id="tabs"></div>
       <button class="icon-btn" data-act="view" id="viewBtn" aria-label="Cambiar vista"></button>
       <button class="icon-btn" data-act="search" aria-label="Buscar en la carta"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></button>
-      <button class="icon-btn" data-act="filters" aria-label="Filtrar por alérgenos"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h9M18 7h2M4 17h4M12 17h8"/><circle cx="15.5" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg><span class="badge" id="fBadge" hidden></span></button>
     </div>
     <div class="search-row">
       <label class="search-box"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span class="sr">Buscar</span><input id="q" type="search" placeholder="Buscar: pasta, café, sin gluten…" autocomplete="off" enterkeyhint="search"></label>
@@ -669,7 +668,6 @@ function archHTML(it, size, cls){
   return '<div class="arch' + (it.drink ? ' tall' : '') + (src ? '' : ' noimg') + (cls ? ' ' + cls : '') + '">' +
     (src ? '<img src="' + esc(src) + '" alt="" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">' : '') + '</div>';
 }
-function contieneTxt(it){ return it.contiene.map(function(c){ return c.label + (c.cond ? ' (solo ' + c.cond + ')' : ''); }).join(' · '); }
 function extrasTags(it){ return it.etiquetas.concat(it.opciones.filter(function(g){ return g.type === 'check' && g.choices[0].price; }).map(function(g){ return g.choices[0].label + ' +' + money(g.choices[0].price); })); }
 function priceTxt(it){ return it.precio == null ? 'Consultar' : money(it.precio); }
 function avBadge(a){
@@ -688,7 +686,6 @@ function cardHTML(it, extra){
 function rowHTML(it, inGroup){
   var a = avail(it), meta = [];
   var tags = extrasTags(it); if (tags.length) meta.push(esc(tags.join(' · ')));
-  if (it.contiene.length) meta.push('Contiene: ' + esc(contieneTxt(it)));
   if (a.kind && a.kind !== 'hoy' && !(inGroup && a.kind !== 'agotado')) meta.push('<span class="w">' + esc(a.label) + '</span>');
   var photo = it.foto && state.view === 'lista';
   return '<article class="item row' + (photo ? ' has-photo' : '') + (it.drink ? ' drink' : '') + (a.ok ? '' : ' off') + '" data-id="' + it.id + '">' +
@@ -703,7 +700,7 @@ function featureHTML(it){
     (it.foto ? archHTML(it, 'f', 'frame') : '') +
     '<div><h3 class="f-name"><button data-act="open" data-id="' + it.id + '">' + esc(it.nombre) + '</button></h3>' +
     (it.descripcion ? '<p class="f-desc">' + esc(it.descripcion) + '</p>' : '') +
-    (it.contiene.length || tags.length ? '<p class="f-meta">' + esc(tags.concat(it.contiene.length ? ['Contiene: ' + contieneTxt(it)] : []).join(' · ')) + '</p>' : '') +
+    (tags.length ? '<p class="f-meta">' + esc(tags.join(' · ')) + '</p>' : '') +
     '<div class="f-foot"><span class="c-price">' + priceTxt(it) + '</span>' + '</div></div></article>';
 }
 function itemsHTML(items, inGroup){
@@ -905,7 +902,6 @@ function applyFilters(silent){
   $('#empty').hidden = n > 0;
   var ri = $('#resultInfo'); ri.hidden = !active || n === 0;
   ri.textContent = n + (n === 1 ? ' plato' : ' platos') + (state.q ? ' para “' + state.q + '”' : '') + (state.excl.length ? ' · según los ingredientes declarados' : '');
-  var fc = state.excl.length + (state.soloDisp ? 1 : 0), b = $('#fBadge'); b.hidden = !fc; b.textContent = fc;
   $('#chipsActive').innerHTML = state.excl.map(function(c){ return '<button class="chip-x" data-act="unexcl" data-code="' + c + '">' + esc(ALG[c].sin) + I.x + '</button>'; }).join('') + (state.soloDisp ? '<button class="chip-x" data-act="unsolo">Disponible ahora' + I.x + '</button>' : '');
   $$('#tabs .tab').forEach(function(t){ var s = document.getElementById(t.getAttribute('data-target')); t.hidden = !s || s.hidden; });
   if (!silent) onScroll();
@@ -982,7 +978,6 @@ function openDetail(id){
   var it = state.byId[id]; if (!it) return;
   var a = avail(it), sib = it._cat.items, pos = sib.indexOf(it);
   D = {it: it};
-  var alg = it.contiene.length ? '<div class="d-box"><b>Contiene</b><div class="alg-list">' + it.contiene.map(function(c){ return '<span class="alg">' + esc(c.label + (c.cond ? ' (solo ' + c.cond + ')' : '')) + '</span>'; }).join('') + '</div></div>' : '';
   var av = a.long ? '<div class="d-box ' + (a.ok ? '' : 'warn') + '">' + esc(a.long) + '</div>' : (a.kind === 'hoy' ? '<div class="d-box ok">' + esc('¡Hoy es su día! ' + (it.nota || '')) + '</div>' : '');
   var tags = extrasTags(it);
   var opts = it.opciones.map(function(g){
@@ -995,29 +990,16 @@ function openDetail(id){
     '<button class="d-nav" data-act="dgo" data-d="1" aria-label="Plato siguiente"' + (pos < sib.length - 1 ? '' : ' disabled') + '>' + I.next + '</button></div>' +
     '<p class="d-cat">' + esc(it.grupo || it.categoria) + '</p><h3 class="d-name" id="sheetTitle">' + esc(it.nombre) + '</h3><p class="d-price">' + priceTxt(it) + '</p>' + av +
     (it.descripcion ? '<p class="d-desc">' + esc(it.descripcion) + '</p>' : '') +
-    (tags.length ? '<div class="meta-tags">' + tags.map(function(t){ return '<span class="tag">' + esc(t) + '</span>'; }).join('') + '</div>' : '') + alg +
+    (tags.length ? '<div class="meta-tags">' + tags.map(function(t){ return '<span class="tag">' + esc(t) + '</span>'; }).join('') + '</div>' : '') +
     opts +
     (pairs.length ? '<div class="pair"><h4>Combínalo con</h4><div class="pair-row">' + pairs.map(function(p){ return '<button class="pair-card" data-act="open" data-id="' + p.id + '">' + archHTML(p, 't') + '<b>' + esc(p.nombre) + '</b><span>' + priceTxt(p) + '</span></button>'; }).join('') + '</div></div>' : '') +
-    (it.contiene.length ? '<p class="o-hint" style="text-align:left;margin-top:22px">' + esc(CFG.avisoAlergias || '') + '</p>' : '');
+    '';
   openSheet('detail', body, '');
   var stage = $('.d-stage'), x0 = null;
   stage.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive: true});
   stage.addEventListener('touchend', function(e){ if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) detailGo(dx < 0 ? 1 : -1); });
 }
 function detailGo(d){ if (!D) return; var sib = D.it._cat.items, n = sib.indexOf(D.it) + d; if (n >= 0 && n < sib.length) openDetail(sib[n].id); }
-/* ---------- Filtros ---------- */
-var F = null;
-function openFilters(){
-  F = {excl: state.excl.slice(), solo: state.soloDisp};
-  var body = '<h3 class="sh-title" id="sheetTitle">Filtrar la carta</h3><p class="sh-sub">Oculta lo que no puedes o no quieres comer.</p>' +
-    '<div class="f-sec"><h4>Quiero platos…</h4><div class="chip-grid">' + Object.keys(ALG).map(function(c){ return '<button class="fchip" data-act="fx" data-code="' + c + '" aria-pressed="' + (F.excl.indexOf(c) >= 0) + '">' + esc(ALG[c].sin) + '</button>'; }).join('') + '</div></div>' +
-    '<div class="row-switch"><div><b>Solo lo disponible ahora</b><small>Oculta agotados y especiales de otros días</small></div><label class="switch"><input type="checkbox" data-act="fsolo"' + (F.solo ? ' checked' : '') + '><i></i><span class="sr">Solo disponible</span></label></div>' +
-    '<div class="d-box" style="margin-top:18px">Filtramos según los ingredientes que declaramos en cada plato. ' + esc(CFG.avisoAlergias || '') + '</div>';
-  openSheet('filters', body, '<div class="foot-row"><button class="btn btn-ghost" data-act="fclear" style="flex:0 0 auto">Limpiar</button><button class="btn btn-primary" data-act="fapply" id="fApply"></button></div>');
-  updateFilterCount();
-}
-function updateFilterCount(){ var n = countWith(F.excl, F.solo), b = $('#fApply'); if (b){ b.textContent = 'Ver ' + n + (n === 1 ? ' plato' : ' platos'); b.disabled = !n; } }
-
 /* ---------- Información ---------- */
 function toMin(s){ var m = String(s).trim().match(/^(\d{1,2}):?(\d{2})?$/); return m ? (+m[1]) * 60 + (+(m[2] || 0)) : 0; }
 function openInfo(){
@@ -1060,10 +1042,6 @@ document.addEventListener('click', function(e){
     case 'view': { var a = scrollAnchor(); state.view = state.view === 'fotos' ? 'lista' : 'fotos'; store.set('lila.vista', state.view); renderMenu(); applyFilters(true); restoreAnchor(a); onScroll(); toast(state.view === 'fotos' ? 'Vista con fotos' : 'Vista de lista, como la carta impresa'); break; }
     case 'search': $('#nav').classList.add('searching'); setTimeout(function(){ $('#q').focus(); }, 30); if ($('#nav').getBoundingClientRect().top > 0) goTo($('#menu')); break;
     case 'search-close': $('#q').value = ''; state.q = ''; $('#nav').classList.remove('searching'); applyFilters(); break;
-    case 'filters': openFilters(); break;
-    case 'fx': { var c = el.getAttribute('data-code'), k = F.excl.indexOf(c); if (k >= 0) F.excl.splice(k, 1); else F.excl.push(c); el.setAttribute('aria-pressed', k < 0); updateFilterCount(); break; }
-    case 'fclear': F.excl = []; F.solo = false; $$('.fchip').forEach(function(b){ b.setAttribute('aria-pressed', 'false'); }); var s = $('[data-act=fsolo]'); if (s) s.checked = false; updateFilterCount(); break;
-    case 'fapply': state.excl = F.excl.slice(); state.soloDisp = F.solo; store.set('lila.filtros', {excl: state.excl}); closeSheet(); applyFilters(); goTo($('#menu')); break;
     case 'unexcl': state.excl = state.excl.filter(function(x){ return x !== el.getAttribute('data-code'); }); store.set('lila.filtros', {excl: state.excl}); applyFilters(); break;
     case 'unsolo': state.soloDisp = false; applyFilters(); break;
     case 'clear-all': state.excl = []; state.soloDisp = false; state.q = ''; $('#q').value = ''; $('#nav').classList.remove('searching'); store.set('lila.filtros', {excl: []}); applyFilters(); break;
@@ -1081,7 +1059,6 @@ document.addEventListener('click', function(e){
 });
 document.addEventListener('change', function(e){
   var el = e.target;
-  if (el.matches('[data-act=fsolo]') && F){ F.solo = el.checked; updateFilterCount(); }
 });
 function copyText(t, msg){
   var done = function(){ toast(msg); };
