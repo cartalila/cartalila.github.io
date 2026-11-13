@@ -17,7 +17,6 @@ window.LILA_CONFIG = {
 
   // --- Contacto (vacío = no se muestra) --------------------------------
   whatsapp: "",            // Solo números con indicativo, ej: "573001234567"
-  enviarPedidoPorWhatsApp: true, // Muestra "Enviar por WhatsApp" en Mi pedido (si hay número)
   telefono: "",            // ej: "3001234567"
   instagram: "",           // Usuario sin @, ej: "lilapasteleria"
   direccion: "",           // ej: "Calle 12 # 10-25, Cereté, Córdoba"
@@ -31,9 +30,6 @@ window.LILA_CONFIG = {
     viernes: "", sabado: "", domingo: ""
   },
   zonaHoraria: "America/Bogota",
-
-  // --- Pedido ----------------------------------------------------------
-  propinaSugerida: 0.10,   // Propina voluntaria sugerida (10 %)
 
   // --- Carta en vivo desde Google Sheets (opcional) ---------------------
   // 1) Sube "carta_lila_google_sheets.xlsx" a Drive y ábrelo con Google Sheets.
