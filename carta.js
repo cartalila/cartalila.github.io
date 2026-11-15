@@ -158,11 +158,11 @@ window.LILA_CARTA = [
     contiene: "Gluten, Lácteos, Huevo" },
   { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Dulces de fin de semana",
     dias: "Sábado, Domingo", otros_dias: "No disponible", nota: "Disponibles los fines de semana.",
-    nombre: "Cuchareable de red velvet", precio: 15000 },
+    nombre: "Cuchareable de red velvet", precio: 15000, foto: "cuchareable-red-velvet" },
   { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Dulces de fin de semana",
     dias: "Sábado, Domingo", otros_dias: "No disponible", nota: "Disponibles los fines de semana.",
     nombre: "Cheesecake de frutos rojos", precio: 15000,
-    contiene: "Gluten, Lácteos" },
+    contiene: "Gluten, Lácteos", foto: "cheesecake-frutos-rojos" },
 
   { seccion: "Pastelería", categoria: "En honor a Lila", destacado: "SI",
     nombre: "Torta de enyucado", precio: 10000,
@@ -170,14 +170,14 @@ window.LILA_CARTA = [
     contiene: "Lácteos" },
 
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Chocolate", precio: 10000,
-    contiene: "Gluten, Lácteos, Huevo" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "torta-chocolate" },
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Vainilla", precio: 10000,
     contiene: "Gluten, Lácteos, Huevo" },
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Zanahoria", precio: 10000,
     contiene: "Lácteos, Huevo, Frutos secos" },
 
   { seccion: "Pastelería", categoria: "Postres", nombre: "Pavé de leche Klim", precio: 15000,
-    contiene: "Gluten, Lácteos" },
+    contiene: "Gluten, Lácteos", foto: "pave-klim" },
 
   // ========================= PANADERÍA Y CAFÉ =========================
   { seccion: "Panadería y café", categoria: "Panadería", nombre: "Croissant de mantequilla", precio: 5500,
