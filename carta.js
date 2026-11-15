@@ -140,6 +140,9 @@ window.LILA_CARTA = [
     descripcion: "Lechuga romana, pechuga de pollo, tomates cherry, parmesano, crutones de la casa y salsa César.",
     contiene: "Gluten, Lácteos, Huevo, Mostaza, Pescado", etiquetas: "Saludable", foto: "ensalada-cesar" },
 
+  { seccion: "Cocina", categoria: "Adiciones", nombre: "Queso gratinado", precio: 3000,
+    descripcion: "Agrégalo a tu plato.", contiene: "Lácteos" },
+
   // ============================ PASTELERÍA ============================
   { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Día de muffins",
     dias: "Miércoles", otros_dias: "Bajo pedido", nota: "Los demás días, bajo pedido.",
@@ -190,6 +193,9 @@ window.LILA_CARTA = [
     contiene: "Gluten, Lácteos, Huevo" },
   { seccion: "Panadería y café", categoria: "Galletas", nombre: "Galleta craquelada de chocolate", precio: 5000,
     contiene: "Gluten, Lácteos, Huevo" },
+
+  { seccion: "Panadería y café", categoria: "Mugs para pintar", nombre: "Mug personalizable", precio: 10000,
+    descripcion: "Escoge tu mug y píntalo aquí, en Lila.", foto: "mugs-para-pintar" },
 
   { seccion: "Panadería y café", categoria: "Café", nombre: "Espresso doble", precio: 4500, foto: "expreso" },
   { seccion: "Panadería y café", categoria: "Café", nombre: "Capuchino", precio: 9000,
