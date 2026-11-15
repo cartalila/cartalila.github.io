@@ -246,5 +246,6 @@ window.LILA_CARTA = [
     descripcion: "Pregunta por los sabores disponibles." },
   { seccion: "Bar", categoria: "Gaseosas y agua", nombre: "Soda Bretaña", precio: 5000 },
   { seccion: "Bar", categoria: "Gaseosas y agua", nombre: "Agua", precio: 3000,
-    descripcion: "Con o sin gas.", opciones: "Tipo: Sin gas | Con gas" }
+    descripcion: "Con o sin gas.", opciones: "Tipo: Sin gas | Con gas" },
+  { seccion: "Bar", categoria: "Gaseosas y agua", nombre: "Agua pequeña", precio: 1000 }
 ];
