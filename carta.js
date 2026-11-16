@@ -172,7 +172,7 @@ window.LILA_CARTA = [
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Chocolate", precio: 10000,
     contiene: "Gluten, Lácteos, Huevo", foto: "torta-chocolate" },
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Vainilla", precio: 10000,
-    contiene: "Gluten, Lácteos, Huevo" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "torta-vainilla" },
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Zanahoria", precio: 10000,
     contiene: "Lácteos, Huevo, Frutos secos" },
 
