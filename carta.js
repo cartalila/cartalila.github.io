@@ -174,22 +174,22 @@ window.LILA_CARTA = [
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Vainilla", precio: 10000,
     contiene: "Gluten, Lácteos, Huevo", foto: "torta-vainilla" },
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Zanahoria", precio: 10000,
-    contiene: "Lácteos, Huevo, Frutos secos", foto: "torta-zanahoria" },
+    contiene: "Lácteos, Huevo, Frutos secos", foto: "torta-de-zanahoria" },
   { seccion: "Pastelería", categoria: "Tortas", nombre: "Yogurt", precio: 10000,
-    contiene: "Gluten, Lácteos, Huevo, Frutos secos", foto: "torta-yogurt" },
+    contiene: "Gluten, Lácteos, Huevo, Frutos secos", foto: "torta-de-yogurt" },
 
   { seccion: "Pastelería", categoria: "Postres", nombre: "Pavé de leche Klim", precio: 15000,
     contiene: "Gluten, Lácteos", foto: "pave-klim" },
 
   // ========================= PANADERÍA Y CAFÉ =========================
   { seccion: "Panadería y café", categoria: "Panadería", nombre: "Croissant de mantequilla", precio: 5500,
-    contiene: "Gluten, Lácteos, Huevo", foto: "croissant-mantequilla" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "croissant" },
   { seccion: "Panadería y café", categoria: "Panadería", nombre: "Palito de queso", precio: 4500,
-    contiene: "Gluten, Lácteos, Huevo", foto: "palito-queso" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "palito-de-queso" },
   { seccion: "Panadería y café", categoria: "Panadería", nombre: "Pastel de carne", precio: 5000,
-    contiene: "Gluten, Lácteos, Huevo", foto: "pastel-carne" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "pastel-de-carne" },
   { seccion: "Panadería y café", categoria: "Panadería", nombre: "Pastel de pollo", precio: 5000,
-    contiene: "Gluten, Lácteos, Huevo", foto: "pastel-pollo" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "pastel-de-pollo" },
 
   { seccion: "Panadería y café", categoria: "Galletas", nombre: "Galleta con chips de chocolate", precio: 5000,
     contiene: "Gluten, Lácteos, Huevo" },
