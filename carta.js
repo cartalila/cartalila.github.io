@@ -152,17 +152,6 @@ window.LILA_CARTA = [
     dias: "Miércoles", otros_dias: "Bajo pedido", nota: "Los demás días, bajo pedido.",
     nombre: "Muffin de banano", precio: 7000,
     contiene: "Huevo, Frutos secos", foto: "muffin-banano" },
-  { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Viernes de brownie",
-    dias: "Viernes", otros_dias: "No disponible", nota: "Solo los viernes, hasta agotar existencias.",
-    nombre: "Brownie con helado", precio: 12000,
-    contiene: "Gluten, Lácteos, Huevo", foto: "brownie-con-helado" },
-  { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Dulces de fin de semana",
-    dias: "Sábado, Domingo", otros_dias: "No disponible", nota: "Disponibles los fines de semana.",
-    nombre: "Cuchareable de red velvet", precio: 15000, foto: "cuchareable-red-velvet" },
-  { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Dulces de fin de semana",
-    dias: "Sábado, Domingo", otros_dias: "No disponible", nota: "Disponibles los fines de semana.",
-    nombre: "Cheesecake de frutos rojos", precio: 15000,
-    contiene: "Gluten, Lácteos", foto: "cheesecake-frutos-rojos" },
 
   { seccion: "Pastelería", categoria: "En honor a Lila", destacado: "SI",
     nombre: "Torta de enyucado", precio: 10000,
@@ -180,6 +169,11 @@ window.LILA_CARTA = [
 
   { seccion: "Pastelería", categoria: "Postres", nombre: "Pavé de leche Klim", precio: 15000,
     contiene: "Gluten, Lácteos", foto: "pave-klim" },
+  { seccion: "Pastelería", categoria: "Postres", nombre: "Brownie con helado", precio: 12000,
+    nota: "Hasta agotar existencias.", contiene: "Gluten, Lácteos, Huevo", foto: "brownie-con-helado" },
+  { seccion: "Pastelería", categoria: "Postres", nombre: "Cuchareable de red velvet", precio: 15000, foto: "cuchareable-red-velvet" },
+  { seccion: "Pastelería", categoria: "Postres", nombre: "Cheesecake de frutos rojos", precio: 15000,
+    contiene: "Gluten, Lácteos", foto: "cheesecake-frutos-rojos" },
 
   // ========================= PANADERÍA Y CAFÉ =========================
   { seccion: "Panadería y café", categoria: "Panadería", nombre: "Croissant de mantequilla", precio: 5500,
