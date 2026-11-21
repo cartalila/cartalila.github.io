@@ -155,7 +155,7 @@ window.LILA_CARTA = [
   { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Viernes de brownie",
     dias: "Viernes", otros_dias: "No disponible", nota: "Solo los viernes, hasta agotar existencias.",
     nombre: "Brownie con helado", precio: 12000,
-    contiene: "Gluten, Lácteos, Huevo" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "brownie-con-helado" },
   { seccion: "Pastelería", categoria: "Especiales de la semana", grupo: "Dulces de fin de semana",
     dias: "Sábado, Domingo", otros_dias: "No disponible", nota: "Disponibles los fines de semana.",
     nombre: "Cuchareable de red velvet", precio: 15000, foto: "cuchareable-red-velvet" },
@@ -192,9 +192,9 @@ window.LILA_CARTA = [
     contiene: "Gluten, Lácteos, Huevo", foto: "pastel-de-pollo-2" },
 
   { seccion: "Panadería y café", categoria: "Galletas", nombre: "Galleta con chips de chocolate", precio: 5000,
-    contiene: "Gluten, Lácteos, Huevo" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "galleta-chips" },
   { seccion: "Panadería y café", categoria: "Galletas", nombre: "Galleta craquelada de chocolate", precio: 5000,
-    contiene: "Gluten, Lácteos, Huevo" },
+    contiene: "Gluten, Lácteos, Huevo", foto: "galleta-craquelada" },
 
   { seccion: "Panadería y café", categoria: "Mugs para pintar", nombre: "Mug personalizable", precio: 10000,
     descripcion: "Escoge tu mug y píntalo aquí, en Lila.", foto: "mugs-para-pintar" },
