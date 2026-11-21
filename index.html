@@ -452,7 +452,8 @@ img{display:block;max-width:100%}
 <div class="story" id="story" role="dialog" aria-modal="true" aria-label="Destacados"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="carta.js"></script>
+<script>/* carta.js siempre fresca: el celular no se queda con una carta vieja (precios, fotos) */
+document.write('<script src="carta.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
 <script>
 (function(){
 'use strict';
