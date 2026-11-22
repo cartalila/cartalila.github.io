@@ -240,14 +240,14 @@ window.LILA_CARTA = [
 
   { seccion: "Bar", categoria: "Cervezas", nombre: "Cerveza nacional", precio: 6000,
     descripcion: "Pregunta por las marcas disponibles.",
-    contiene: "Alcohol, Gluten" },
+    contiene: "Alcohol, Gluten", foto: "cerveza-nacional" },
   { seccion: "Bar", categoria: "Cervezas", nombre: "Michelada", precio: 3000,
     descripcion: "Preparación de limón, sal y hielo para acompañar tu cerveza (se cobra aparte)." },
 
   { seccion: "Bar", categoria: "Gaseosas y agua", nombre: "Gaseosa personal", precio: 5000,
-    descripcion: "Pregunta por los sabores disponibles." },
-  { seccion: "Bar", categoria: "Gaseosas y agua", nombre: "Soda Bretaña", precio: 5000 },
+    descripcion: "Pregunta por los sabores disponibles.", foto: "gaseosa-personal" },
+  { seccion: "Bar", categoria: "Gaseosas y agua", nombre: "Soda Bretaña", precio: 5000, foto: "soda-bretana" },
   { seccion: "Bar", categoria: "Gaseosas y agua", nombre: "Agua", precio: 3000,
-    descripcion: "Con o sin gas.", opciones: "Tipo: Sin gas | Con gas" },
+    descripcion: "Con o sin gas.", opciones: "Tipo: Sin gas | Con gas", foto: "agua-grande" },
   { seccion: "Bar", categoria: "Gaseosas y agua", nombre: "Agua pequeña", precio: 1000 }
 ];
